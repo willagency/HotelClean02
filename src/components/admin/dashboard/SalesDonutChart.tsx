@@ -39,7 +39,7 @@ function CustomTooltip({ active, payload }: {
   if (!active || !payload?.length) return null
   const item = payload[0]
   const pct  = item.payload.totalSales > 0
-    ? Math.round((item.value / (payload[0].payload as unknown as { _total: number })._total ?? 1) * 100)
+    ? Math.round((item.value / ((payload[0].payload as unknown as { _total: number })._total ?? 1)) * 100)
     : 0
 
   return (

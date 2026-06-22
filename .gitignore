@@ -1,2 +1,6 @@
 .env
 node_modules/
+# .gitignore に追記する内容
+.DS_Store
+**/.DS_Store
+.next
