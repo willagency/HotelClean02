@@ -91,7 +91,9 @@ export async function fetchDashboardSummary(
   const hotelRoomSalesMap: Record<string, RoomTypeSalesMap> = {}
   const hotelBaseSalesMap: Record<string, number> = {}
 
-  for (const r of monthlyReports ?? []) {
+  // monthlyReports を any[] として扱うことで、r が never になるのを防ぐ
+  for (const item of monthlyReports ?? []) {
+    const r = item as any // 一旦any型として扱う
     const rt = r.room_types as unknown as { id: string; name: string; unit_price: number } | null
     if (!rt) continue
 
