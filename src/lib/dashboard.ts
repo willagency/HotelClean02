@@ -117,7 +117,8 @@ export async function fetchDashboardSummary(
   }
 
   const hotelAdjMap: Record<string, number> = {}
-  for (const a of monthlyAdj ?? []) {
+  // monthlyAdj を any[] として扱うことで、a が never になるのを防ぐ
+  for (const a of (monthlyAdj as any[]) ?? []) {
     hotelAdjMap[a.hotel_id] = (hotelAdjMap[a.hotel_id] ?? 0) + a.amount
   }
 
