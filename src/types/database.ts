@@ -22,21 +22,41 @@ export interface Database {
           monthly_target_sales?: number
           created_at?: string
         }
+        Relationships: []
       }
       roles: {
         Row: { id: string; name: string; hourly_wage: number; created_at: string }
         Insert: { id?: string; name: string; hourly_wage: number; created_at?: string }
         Update: { id?: string; name?: string; hourly_wage?: number; created_at?: string }
+        Relationships: []
       }
       room_types: {
         Row: { id: string; hotel_id: string; name: string; unit_price: number; created_at: string }
         Insert: { id?: string; hotel_id: string; name: string; unit_price: number; created_at?: string }
         Update: { id?: string; hotel_id?: string; name?: string; unit_price?: number; created_at?: string }
+        Relationships: [
+          {
+            foreignKeyName: "room_types_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       staffs: {
         Row: { id: string; name: string; role_id: string | null; created_at: string }
         Insert: { id?: string; name: string; role_id?: string | null; created_at?: string }
         Update: { id?: string; name?: string; role_id?: string | null; created_at?: string }
+        Relationships: [
+          {
+            foreignKeyName: "staffs_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       attendances: {
         Row: {
@@ -54,6 +74,22 @@ export interface Database {
           clock_in?: string; clock_out?: string | null
           break_minutes?: number; created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "attendances_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staffs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendances_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       shifts: {
         Row: {
@@ -68,6 +104,22 @@ export interface Database {
           id?: string; staff_id?: string; hotel_id?: string
           date?: string; status?: 'requested' | 'approved' | 'rejected'; created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "shifts_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staffs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shifts_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       daily_reports: {
         Row: {
@@ -82,6 +134,22 @@ export interface Database {
           id?: string; hotel_id?: string; date?: string
           room_type_id?: string; completed_rooms?: number; created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "daily_reports_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_reports_room_type_id_fkey"
+            columns: ["room_type_id"]
+            isOneToOne: false
+            referencedRelation: "room_types"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       adjustments: {
         Row: {
@@ -96,7 +164,28 @@ export interface Database {
           id?: string; hotel_id?: string; date?: string
           amount?: number; reason?: string | null; created_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "adjustments_hotel_id_fkey"
+            columns: ["hotel_id"]
+            isOneToOne: false
+            referencedRelation: "hotels"
+            referencedColumns: ["id"]
+          }
+        ]
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }
