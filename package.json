@@ -22,7 +22,7 @@
     "date-fns": "^3.6.0",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.395.0",
-    "next": "^14.2.0",
+    "next": "^15.5.18",
     "radix-ui": "^1.5.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
